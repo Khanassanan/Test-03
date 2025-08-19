@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ตรวจสอบค่า pH</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Kanit', sans-serif;
+      background: linear-gradient(to bottom right, #ccefff, #e6f7ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 450px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #0077cc;
+      margin-bottom: 20px;
+    }
+
+    input[type="number"] {
+      padding: 12px;
+      font-size: 18px;
+      width: 150px;
+      border-radius: 10px;
+      border: 2px solid #0077cc;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="number"]:focus {
+      border-color: #00bfff;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin-left: 10px;
+      font-size: 18px;
+      background-color: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0099cc;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+      transition: 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>ตรวจสอบผลกระทบของค่า pH</h1>
+    <p>กรอกค่า pH ที่ต้องการตรวจสอบ:</p>
+
+    <input type="number" step="0.1" id="phInput" placeholder="เช่น 7.0" />
+    <button onclick="checkPH()">ตรวจสอบ</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function checkPH() {
+      const ph = parseFloat(document.getElementById("phInput").value);
+      const result = document.getElementById("result");
+
+      if (isNaN(ph)) {
+        result.style.display = "block";
+        result.style.backgroundColor = "#ffdddd";
+        result.style.color = "#cc0000";
+        result.textContent = "กรุณากรอกค่าที่ถูกต้อง";
+        return;
+      }
+
+      let message = "";
+      let bgColor = "";
+      let textColor = "#fff";
+
+      if (ph <= 4.0) {
+        message = "⚠️ ค่า pH ต่ำเกินไป: เป็นจุดอันตราย อาจทำให้ปลาตายได้";
+        bgColor = "#e74c3c";
+      } else if (ph > 4.0 && ph <= 6.0) {
+        message = "🟠 ค่า pH ต่ำ: ไม่เหมาะสม การเจริญเติบโตช้า สืบพันธุ์หยุดชะงัก";
+        bgColor = "#f39c12";
+      } else if (ph >= 6.5 && ph <= 9.0) {
+        message = "✅ ค่า pH เหมาะสม: เหมาะสำหรับการเพาะเลี้ยงสัตว์น้ำ";
+        bgColor = "#2ecc71";
+      } else if (ph > 9.0 && ph <= 11.0) {
+        message = "⚠️ ค่า pH สูงเกินไป: ไม่เหมาะสมต่อการดำรงชีวิตสัตว์น้ำ";
+        bgColor = "#f1c40f";
+        textColor = "#000";
+      } else if (ph > 11.0) {
+        message = "❌ ค่า pH สูงมาก: เป็นพิษต่อปลา";
+        bgColor = "#c0392b";
+      } else {
+        message = "🤔 ค่า pH อยู่ในช่วงที่ไม่แน่ชัด";
+        bgColor = "#95a5a6";
+      }
+
+      result.style.display = "block";
+      result.style.backgroundColor = bgColor;
+      result.style.color = textColor;
+      result.textContent = message;
+    }
+  </script>
+
+</body>
+</html>
